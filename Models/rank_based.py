@@ -1,7 +1,5 @@
 import pandas as pd
 
-df_final = pd.read_csv("../Data/playbacks.csv")
-
 
 def tally_average_playcounts(df):
     avg_count = df.groupby(by="song_id").mean()['play_count']
@@ -23,6 +21,5 @@ def get_song_titles(song_ids, df):
         titles.append(id_lookup[song_id])
     return titles
 
-
-final_play = tally_average_playcounts(df_final)
-print(get_song_titles(top_n_songs(final_play, 10, 50), df_final))
+# final_play = tally_average_playcounts(df_final)
+# print(get_song_titles(top_n_songs(final_play, 10, 50), df_final))
