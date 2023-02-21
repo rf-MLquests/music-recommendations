@@ -49,5 +49,3 @@ def recommendations(df, title, similar_songs):
 
 def compute_similarities(song_tfidf):
     return cosine_similarity(song_tfidf, song_tfidf)
-
-# print(recommendations("Learn To Fly", compute_similarities(build_song_tfidf())))

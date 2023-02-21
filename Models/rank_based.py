@@ -20,6 +20,3 @@ def get_song_titles(song_ids, df):
     for song_id in song_ids:
         titles.append(id_lookup[song_id])
     return titles
-
-# final_play = tally_average_playcounts(df_final)
-# print(get_song_titles(top_n_songs(final_play, 10, 50), df_final))

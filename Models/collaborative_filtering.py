@@ -18,10 +18,8 @@ def split_dataset(df, test_size, random_state):
     return train, test
 
 
-trainset, testset = split_dataset(test_size=0.4, random_state=42)
-
-
 def precision_recall_at_k(model, k=30, threshold=1.5):
+    trainset, testset = split_dataset(test_size=0.4, random_state=42)
     user_est_true = defaultdict(list)
     predictions = model.test(testset)
 
@@ -49,6 +47,7 @@ def precision_recall_at_k(model, k=30, threshold=1.5):
 
 
 def user_user_model():
+    trainset, testset = split_dataset(test_size=0.4, random_state=42)
     sim_options = {'name': 'cosine', 'user_based': True}
     model = KNNBasic(random_state=1, sim_options=sim_options, verbose=False)
     model.fit(trainset)
@@ -57,6 +56,7 @@ def user_user_model():
 
 
 def item_item_model():
+    trainset, testset = split_dataset(test_size=0.4, random_state=42)
     sim_options = {'name': 'cosine', 'user_based': False}
     model = KNNBasic(random_state=1, sim_options=sim_options, verbose=False)
     model.fit(trainset)
@@ -65,6 +65,7 @@ def item_item_model():
 
 
 def matrix_factorization_model():
+    trainset, testset = split_dataset(test_size=0.4, random_state=42)
     model = SVD(random_state=1)
     model.fit(trainset)
     precision_recall_at_k(model)
@@ -72,6 +73,7 @@ def matrix_factorization_model():
 
 
 def clustering_model():
+    trainset, testset = split_dataset(test_size=0.4, random_state=42)
     model = CoClustering(random_state=1)
     model.fit(trainset)
     precision_recall_at_k(model)
@@ -105,6 +107,3 @@ def ranking_songs(df, recommendations):
 
     ranked_songs = ranked_songs.sort_values(by='corrected_playcounts', ascending=False)
     return ranked_songs
-
-# user_user_model = user_user_model()
-# print(ranking_songs(get_recommendations(df, 6958, 5, user_user_model)))
