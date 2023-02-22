@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from rank_based import tally_average_playcounts
+from .rank_based import tally_average_playcounts
 from collections import defaultdict
 from surprise import accuracy
 from surprise.reader import Reader
