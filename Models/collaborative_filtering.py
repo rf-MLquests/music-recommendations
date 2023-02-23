@@ -18,8 +18,8 @@ def split_dataset(df, test_size, random_state):
     return train, test
 
 
-def precision_recall_at_k(model, k=30, threshold=1.5):
-    trainset, testset = split_dataset(test_size=0.4, random_state=42)
+def precision_recall_at_k(df, model, k=30, threshold=1.5):
+    trainset, testset = split_dataset(df, test_size=0.4, random_state=42)
     user_est_true = defaultdict(list)
     predictions = model.test(testset)
 
@@ -46,38 +46,51 @@ def precision_recall_at_k(model, k=30, threshold=1.5):
     print('F_1 score: ', round((2 * precision * recall) / (precision + recall), 3))
 
 
-def user_user_model():
-    trainset, testset = split_dataset(test_size=0.4, random_state=42)
+def user_user_model(df):
+    trainset, testset = split_dataset(df, test_size=0.4, random_state=42)
     sim_options = {'name': 'cosine', 'user_based': True}
     model = KNNBasic(random_state=1, sim_options=sim_options, verbose=False)
     model.fit(trainset)
-    precision_recall_at_k(model)
+    precision_recall_at_k(df, model)
     return model
 
 
-def item_item_model():
-    trainset, testset = split_dataset(test_size=0.4, random_state=42)
+def item_item_model(df):
+    trainset, testset = split_dataset(df, test_size=0.4, random_state=42)
     sim_options = {'name': 'cosine', 'user_based': False}
     model = KNNBasic(random_state=1, sim_options=sim_options, verbose=False)
     model.fit(trainset)
-    precision_recall_at_k(model)
+    precision_recall_at_k(df, model)
     return model
 
 
-def matrix_factorization_model():
-    trainset, testset = split_dataset(test_size=0.4, random_state=42)
+def matrix_factorization_model(df):
+    trainset, testset = split_dataset(df, test_size=0.4, random_state=42)
     model = SVD(random_state=1)
     model.fit(trainset)
-    precision_recall_at_k(model)
+    precision_recall_at_k(df, model)
     return model
 
 
-def clustering_model():
-    trainset, testset = split_dataset(test_size=0.4, random_state=42)
+def clustering_model(df):
+    trainset, testset = split_dataset(df, test_size=0.4, random_state=42)
     model = CoClustering(random_state=1)
     model.fit(trainset)
-    precision_recall_at_k(model)
+    precision_recall_at_k(df, model)
     return model
+
+
+def model_builder(type: str, df):
+    if type == "user":
+        return user_user_model(df)
+    elif type == "item":
+        return item_item_model(df)
+    elif type == "svd":
+        return matrix_factorization_model(df)
+    elif type == "clustering":
+        return clustering_model(df)
+    else:
+        raise ValueError("Invalid technique type")
 
 
 def get_recommendations(data, user_id, top_n, algo):

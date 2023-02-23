@@ -2,6 +2,7 @@ from typing import Union
 from pydantic import BaseModel
 
 
-class ContentBasedRequest(BaseModel):
-    song_name: str
+class CollaborativeFilteringRequest(BaseModel):
+    type: str
+    user: int
     n: Union[int, None] = 10

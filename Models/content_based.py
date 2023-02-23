@@ -35,12 +35,12 @@ def build_song_tfidf(df):
     return song_tfidf
 
 
-def recommendations(df, title, similar_songs):
+def recommendations(df, title, similar_songs, n):
     recommended_songs = []
     indices = pd.Series(df.index)
     idx = indices[indices == title].index[0]
     score_series = pd.Series(similar_songs[idx]).sort_values(ascending=False)
-    top_10_indexes = list(score_series.iloc[1: 11].index)
+    top_10_indexes = list(score_series.iloc[1: 1 + n].index)
     print(top_10_indexes)
     for i in top_10_indexes:
         recommended_songs.append(list(df.index)[i])
