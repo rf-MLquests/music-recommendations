@@ -24,7 +24,8 @@ Some may require the use of a different dataset
 
 ## System-side TODOs:
 
+- At inference time, retrieve latest stored model for fast prediction
 - Mocking a production environment by generating new user-song interactions
 - Adding backend storage to store above new data / updated dataset / models
 - Adding model re-train components that periodically retrain models
-- At inference time, retrieve latest stored model for fast prediction
+
