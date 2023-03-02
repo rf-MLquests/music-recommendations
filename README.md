@@ -13,6 +13,7 @@ Dataset.
 
 - FastAPI endpoints that exposes each recommender
 - Dockerized for distribution and scaling
+- Models are trained at container build time and loaded at inference time
 
 ## Model-side TODOs:
 
@@ -24,7 +25,6 @@ Some may require the use of a different dataset
 
 ## System-side TODOs:
 
-- At inference time, retrieve latest stored model for fast prediction
 - Mocking a production environment by generating new user-song interactions
 - Adding backend storage to store above new data / updated dataset / models
 - Adding model re-train components that periodically retrain models

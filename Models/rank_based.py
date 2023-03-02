@@ -1,11 +1,4 @@
-import pandas as pd
-
-
-def tally_average_playcounts(df):
-    avg_count = df.groupby(by="song_id").mean()['play_count']
-    play_freq = df.groupby(by="song_id").count()['play_count']
-    final_play = pd.DataFrame({'avg_count': avg_count, 'play_freq': play_freq})
-    return final_play
+import pickle
 
 
 def top_n_songs(final_play_counts, n, min_playbacks):
@@ -14,9 +7,9 @@ def top_n_songs(final_play_counts, n, min_playbacks):
     return recommendations.index[:n]
 
 
-def get_song_titles(song_ids, df):
+def get_song_titles(song_ids):
     titles = []
-    id_lookup = pd.Series(df['title'].values, index=df['song_id']).to_dict()
+    id_lookup = pickle.load(open('../music-recommendations/Models/title_dictionary.pkl', 'rb'))
     for song_id in song_ids:
         titles.append(id_lookup[song_id])
     return titles

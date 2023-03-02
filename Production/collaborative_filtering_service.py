@@ -1,5 +1,4 @@
 import Models.collaborative_filtering as cf
-import pandas as pd
 
 
 def deserialize_recommendations(result):
@@ -7,8 +6,7 @@ def deserialize_recommendations(result):
 
 
 def collaborative_filtering_recommendations(type: str, user: int, n: int):
-    df = pd.read_csv("../music-recommendations/Data/playbacks.csv")
-    model = cf.model_builder(type, df)
-    recommendations = cf.get_recommendations(df, user, n, model)
-    result = cf.ranking_songs(df, recommendations)
+    model = cf.model_loader(type)
+    recommendations = cf.get_recommendations(user, n, model)
+    result = cf.ranking_songs(recommendations)
     return deserialize_recommendations(result)

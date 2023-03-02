@@ -33,21 +33,21 @@ def filter_by_id_list(df, col_name, to_remove):
     return new_df
 
 
-count_df = pd.read_csv("../Data/count_data.csv")
-song_df = pd.read_csv("../Data/song_data.csv")
-df_merged = count_df.merge(song_df.drop_duplicates(), how='left', on='song_id')
-df_merged.drop(columns=["Unnamed: 0"], inplace=True)
-print(df_merged.info())
+def process_original_dataset():
+    count_df = pd.read_csv("../Data/count_data.csv")
+    song_df = pd.read_csv("../Data/song_data.csv")
+    df_merged = count_df.merge(song_df.drop_duplicates(), how='left', on='song_id')
+    df_merged.drop(columns=["Unnamed: 0"], inplace=True)
 
-label_encode(df_merged, 'user_id')
-label_encode(df_merged, 'song_id')
+    label_encode(df_merged, 'user_id')
+    label_encode(df_merged, 'song_id')
 
-user_rating_counts = create_count_dictionary(df_merged, 'user_id')
-song_rating_counts = create_count_dictionary(df_merged, 'song_id')
-users_to_remove = get_filter_list(user_rating_counts, 90)
-songs_to_remove = get_filter_list(song_rating_counts, 120)
-df1 = filter_by_id_list(df_merged, 'user_id', users_to_remove)
-df_final = filter_by_id_list(df1, 'song_id', songs_to_remove)
-df_final.loc[df_final['play_count'] > 5, 'play_count'] = 5
-print(df_final.info())
-df_final.to_csv("../Data/playbacks.csv", header=True, index=False)
+    user_rating_counts = create_count_dictionary(df_merged, 'user_id')
+    song_rating_counts = create_count_dictionary(df_merged, 'song_id')
+    users_to_remove = get_filter_list(user_rating_counts, 90)
+    songs_to_remove = get_filter_list(song_rating_counts, 120)
+    df1 = filter_by_id_list(df_merged, 'user_id', users_to_remove)
+    df_final = filter_by_id_list(df1, 'song_id', songs_to_remove)
+    df_final.loc[df_final['play_count'] > 5, 'play_count'] = 5
+
+    df_final.to_csv("../Data/playbacks.csv", header=True, index=False)

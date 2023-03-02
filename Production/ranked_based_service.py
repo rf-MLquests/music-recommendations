@@ -1,8 +1,7 @@
 import Models.rank_based as rb
-import pandas as pd
+import pickle
 
 
 def get_top_ranked(n=10, min=50):
-    df = pd.read_csv("../music-recommendations/Data/playbacks.csv")
-    final_play = rb.tally_average_playcounts(df)
-    return rb.get_song_titles(rb.top_n_songs(final_play, n, min), df)
+    final_play = pickle.load(open('../music-recommendations/Models/play_frequencies.pkl', 'rb'))
+    return rb.get_song_titles(rb.top_n_songs(final_play, n, min))

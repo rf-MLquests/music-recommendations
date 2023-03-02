@@ -1,10 +1,8 @@
 import Models.content_based as cb
-import pandas as pd
+import pickle
 
 
 def content_based_recommendations(name: str, n: int):
-    df = pd.read_csv("../music-recommendations/Data/playbacks.csv")
-    df = cb.assemble_text_features(df)
-    tfidf = cb.build_song_tfidf(df)
-    similar_songs = cb.compute_similarities(tfidf)
+    df = pickle.load(open('../music-recommendations/Models/songs_with_text_feature.pkl', 'rb'))
+    similar_songs = pickle.load(open('../music-recommendations/Models/tfidf_similarities.pkl', 'rb'))
     return cb.recommendations(df, name, similar_songs, n)
